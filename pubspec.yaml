@@ -1,0 +1,21 @@
+name: udy_flutter_layout
+description: Flutter layout package for personal use
+version: 0.0.1
+publish_to: 'none'
+homepage:
+
+environment:
+  sdk: '>=2.19.4 <3.0.0'
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_adaptive_scaffold: ^0.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
