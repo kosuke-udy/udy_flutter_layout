@@ -1,21 +1,21 @@
 part of udy_flutter_layout;
 
-class ContentsScaffold extends StatelessWidget {
-  const ContentsScaffold({
+class PageScaffold extends StatelessWidget {
+  const PageScaffold({
     Key? key,
-    this.topBar = const TopBar(),
+    this.topBar,
     required this.body,
   }) : super(key: key);
 
-  final TopBar topBar;
-  final ContentsBody body;
+  final SliverAppBar? topBar;
+  final PageBody body;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          topBar,
+          topBar ?? TopBar.md(),
           body,
         ],
       ),

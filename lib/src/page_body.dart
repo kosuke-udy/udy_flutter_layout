@@ -1,7 +1,7 @@
 part of udy_flutter_layout;
 
-class ContentsBody extends StatelessWidget {
-  const ContentsBody({
+class PageBody extends StatelessWidget {
+  const PageBody({
     Key? key,
     required this.child,
     this.fillRemaining = false,
