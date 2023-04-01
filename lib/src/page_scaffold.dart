@@ -15,7 +15,7 @@ class PageScaffold extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          topBar ?? TopBar.md(),
+          topBar ?? SliverAppBar.medium(),
           body,
         ],
       ),
