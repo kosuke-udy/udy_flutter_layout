@@ -1,7 +1,19 @@
 part of udy_flutter_layout;
 
-extension TopBar on SliverAppBar {
-  static SliverAppBar md({
+class TopBar extends StatelessWidget {
+  final SliverAppBar sliverAppBar;
+
+  const TopBar({
+    Key? key,
+    required this.sliverAppBar,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return sliverAppBar;
+  }
+
+  factory TopBar.md({
     Key? key,
     Widget? leading,
     bool automaticallyImplyLeading = true,
@@ -37,39 +49,41 @@ extension TopBar on SliverAppBar {
     TextStyle? titleTextStyle,
     SystemUiOverlayStyle? systemOverlayStyle,
   }) =>
-      SliverAppBar.medium(
-        key: key,
-        leading: leading,
-        automaticallyImplyLeading: automaticallyImplyLeading,
-        actions: actions,
-        flexibleSpace: flexibleSpace,
-        bottom: bottom,
-        elevation: elevation,
-        scrolledUnderElevation: scrolledUnderElevation,
-        shadowColor: shadowColor,
-        surfaceTintColor: surfaceTintColor,
-        forceElevated: forceElevated,
-        backgroundColor: backgroundColor,
-        foregroundColor: foregroundColor,
-        iconTheme: iconTheme,
-        actionsIconTheme: actionsIconTheme,
-        primary: primary,
-        centerTitle: centerTitle,
-        excludeHeaderSemantics: excludeHeaderSemantics,
-        titleSpacing: titleSpacing,
-        collapsedHeight: collapsedHeight,
-        expandedHeight: expandedHeight,
-        floating: floating,
-        pinned: pinned,
-        snap: snap,
-        stretch: stretch,
-        stretchTriggerOffset: stretchTriggerOffset,
-        onStretchTrigger: onStretchTrigger,
-        shape: shape,
-        // toolbarHeight: toolbarHeight,
-        leadingWidth: leadingWidth,
-        toolbarTextStyle: toolbarTextStyle,
-        titleTextStyle: titleTextStyle,
-        systemOverlayStyle: systemOverlayStyle,
+      TopBar(
+        sliverAppBar: SliverAppBar.medium(
+          key: key,
+          leading: leading,
+          automaticallyImplyLeading: automaticallyImplyLeading,
+          actions: actions,
+          flexibleSpace: flexibleSpace,
+          bottom: bottom,
+          elevation: elevation,
+          scrolledUnderElevation: scrolledUnderElevation,
+          shadowColor: shadowColor,
+          surfaceTintColor: surfaceTintColor,
+          forceElevated: forceElevated,
+          backgroundColor: backgroundColor,
+          foregroundColor: foregroundColor,
+          iconTheme: iconTheme,
+          actionsIconTheme: actionsIconTheme,
+          primary: primary,
+          centerTitle: centerTitle,
+          excludeHeaderSemantics: excludeHeaderSemantics,
+          titleSpacing: titleSpacing,
+          collapsedHeight: collapsedHeight,
+          expandedHeight: expandedHeight,
+          floating: floating,
+          pinned: pinned,
+          snap: snap,
+          stretch: stretch,
+          stretchTriggerOffset: stretchTriggerOffset,
+          onStretchTrigger: onStretchTrigger,
+          shape: shape,
+          // toolbarHeight: toolbarHeight,
+          leadingWidth: leadingWidth,
+          toolbarTextStyle: toolbarTextStyle,
+          titleTextStyle: titleTextStyle,
+          systemOverlayStyle: systemOverlayStyle,
+        ),
       );
 }

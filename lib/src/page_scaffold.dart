@@ -7,8 +7,8 @@ class PageScaffold extends StatelessWidget {
     required this.body,
   }) : super(key: key);
 
-  final SliverAppBar? topBar;
-  final PageBody body;
+  final Widget? topBar;
+  final Widget body;
 
   @override
   Widget build(BuildContext context) {
