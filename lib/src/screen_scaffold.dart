@@ -1,31 +1,35 @@
 part of udy_flutter_layout;
 
-class ScreenScaffold extends StatelessWidget {
+class ScreenScaffold extends StatefulWidget {
+  final Widget body, navRailLeading;
+  final List<NavWidgetDestination> destinations;
+
   const ScreenScaffold({
     Key? key,
     required this.body,
-    this.destinations,
+    required this.destinations,
+    this.navRailLeading = const Icon(Icons.menu),
   }) : super(key: key);
 
-  final Widget body;
-  final List<NavWidgetDestination>? destinations;
+  @override
+  State<ScreenScaffold> createState() => _ScreenScaffoldState();
+}
+
+class _ScreenScaffoldState extends State<ScreenScaffold> {
+  int _selectedNavIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return AdaptiveLayout(
       internalAnimations: false,
-      body: generateBodySlot(body),
-      primaryNavigation: destinations != null
-          ? generatePrimaryNavSlot(destinations!
-              .map<NavigationRailDestination>(
-                  (e) => e.toNavigationRailDestination())
-              .toList())
-          : null,
-      bottomNavigation: destinations != null
-          ? generateBottomNavSlot(destinations!
-              .map<NavigationDestination>((e) => e.toNavigationDestination())
-              .toList())
-          : null,
+      body: generateBodySlot(widget.body),
+      primaryNavigation: generatePrimaryNavSlot(widget.destinations
+          .map<NavigationRailDestination>(
+              (e) => e.toNavigationRailDestination())
+          .toList()),
+      bottomNavigation: generateBottomNavSlot(widget.destinations
+          .map<NavigationDestination>((e) => e.toNavigationDestination())
+          .toList()),
     );
   }
 
@@ -46,11 +50,18 @@ class ScreenScaffold extends StatelessWidget {
     );
   }
 
-  static SlotLayout generatePrimaryNavSlot(
+  SlotLayout generatePrimaryNavSlot(
     List<NavigationRailDestination> destinations,
   ) {
     Builder builder(dynamic _) => AdaptiveScaffold.standardNavigationRail(
           destinations: destinations,
+          selectedIndex: _selectedNavIndex,
+          onDestinationSelected: (newIndex) {
+            setState(() {
+              _selectedNavIndex = newIndex;
+            });
+          },
+          leading: widget.navRailLeading,
         );
     const inAnimation = AdaptiveScaffold.leftOutIn;
 
@@ -74,7 +85,7 @@ class ScreenScaffold extends StatelessWidget {
     );
   }
 
-  static SlotLayout generateBottomNavSlot(
+  SlotLayout generateBottomNavSlot(
     List<NavigationDestination> destinations,
   ) {
     return SlotLayout(
@@ -82,7 +93,14 @@ class ScreenScaffold extends StatelessWidget {
         Breakpoints.small: SlotLayout.from(
           key: const Key("Bottom Navigation Small"),
           builder: (_) => AdaptiveScaffold.standardBottomNavigationBar(
-              destinations: destinations),
+            destinations: destinations,
+            currentIndex: _selectedNavIndex,
+            onDestinationSelected: (newIndex) {
+              setState(() {
+                _selectedNavIndex = newIndex;
+              });
+            },
+          ),
         ),
       },
     );
