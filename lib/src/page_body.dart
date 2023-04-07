@@ -11,9 +11,6 @@ class PageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverFillRemaining(
-      // child: Scaffold(
-      //   body: child,
-      // ),
       child: child,
     );
   }
