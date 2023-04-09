@@ -12,21 +12,23 @@ class RefreshableListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return onRefresh == null || onRefresh == () async {}
-        ? ListView(
-            padding: const EdgeInsets.all(0),
-            children: children,
-          )
-        : RefreshIndicator(
-            onRefresh: onRefresh!,
-            displacement: 0,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-            backgroundColor: Colors.transparent,
-            child: ListView(
-              physics: const AlwaysScrollableScrollPhysics(),
+    return Scrollbar(
+      child: onRefresh == null || onRefresh == () async {}
+          ? ListView(
               padding: const EdgeInsets.all(0),
               children: children,
+            )
+          : RefreshIndicator(
+              onRefresh: onRefresh!,
+              displacement: 0,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+              backgroundColor: Colors.transparent,
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(0),
+                children: children,
+              ),
             ),
-          );
+    );
   }
 }
