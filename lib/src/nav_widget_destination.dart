@@ -19,6 +19,15 @@ class NavWidgetDestination {
   late EdgeInsetsGeometry? railPadding;
   late Color? drawerBackgroundColor;
 
+  BottomNavigationBarItem toBottomNavigationBarItem() {
+    return BottomNavigationBarItem(
+      icon: icon,
+      activeIcon: selectedIcon,
+      label: labelText,
+      tooltip: bottomBarTooltip,
+    );
+  }
+
   NavigationDestination toNavigationDestination() {
     return NavigationDestination(
       icon: icon,

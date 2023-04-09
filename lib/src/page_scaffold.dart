@@ -17,13 +17,15 @@ class PageScaffold extends StatelessWidget {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          // topBar ?? SliverAppBar.medium(),
           SliverAppBar(
             floating: true,
             pinned: true,
             snap: true,
             stretch: false,
-            titleTextStyle: Theme.of(context).textTheme.headlineSmall,
+            titleTextStyle: Theme.of(context)
+                .textTheme
+                .displayMedium!
+                .copyWith(fontSize: 18, fontWeight: FontWeight.w600),
             title: appBarTitle,
           ),
           PageBody(

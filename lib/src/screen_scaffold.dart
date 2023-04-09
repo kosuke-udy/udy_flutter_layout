@@ -3,12 +3,16 @@ part of udy_flutter_layout;
 class ScreenScaffold extends StatefulWidget {
   final Widget body, navRailLeading;
   final List<NavWidgetDestination> destinations;
+  final Key navigatorKey;
+  final void Function(int newIndex)? onDestinationSelected;
 
   const ScreenScaffold({
     Key? key,
     required this.body,
     required this.destinations,
     this.navRailLeading = const Icon(Icons.menu),
+    this.navigatorKey = const Key("Navigator"),
+    this.onDestinationSelected,
   }) : super(key: key);
 
   @override
@@ -23,13 +27,18 @@ class _ScreenScaffoldState extends State<ScreenScaffold> {
     return AdaptiveLayout(
       internalAnimations: false,
       body: generateBodySlot(widget.body),
-      primaryNavigation: generatePrimaryNavSlot(widget.destinations
-          .map<NavigationRailDestination>(
-              (e) => e.toNavigationRailDestination())
-          .toList()),
-      bottomNavigation: generateBottomNavSlot(widget.destinations
-          .map<NavigationDestination>((e) => e.toNavigationDestination())
-          .toList()),
+      primaryNavigation: generatePrimaryNavSlot(
+        widget.destinations
+            .map((e) => e.toNavigationRailDestination())
+            .toList(),
+        widget.onDestinationSelected ?? (_) {},
+        widget.navigatorKey,
+      ),
+      bottomNavigation: generateBottomNavSlot(
+        widget.destinations.map((e) => e.toBottomNavigationBarItem()).toList(),
+        widget.onDestinationSelected ?? (_) {},
+        widget.navigatorKey,
+      ),
     );
   }
 
@@ -52,6 +61,8 @@ class _ScreenScaffoldState extends State<ScreenScaffold> {
 
   SlotLayout generatePrimaryNavSlot(
     List<NavigationRailDestination> destinations,
+    void Function(int) onDestinationSelected,
+    Key navigatorKey,
   ) {
     Builder builder(dynamic _) => AdaptiveScaffold.standardNavigationRail(
           destinations: destinations,
@@ -59,6 +70,7 @@ class _ScreenScaffoldState extends State<ScreenScaffold> {
           onDestinationSelected: (newIndex) {
             setState(() {
               _selectedNavIndex = newIndex;
+              onDestinationSelected(newIndex);
             });
           },
           leading: widget.navRailLeading,
@@ -72,12 +84,12 @@ class _ScreenScaffoldState extends State<ScreenScaffold> {
         //   builder: (_) => const SizedBox.shrink(),
         // ),
         Breakpoints.medium: SlotLayout.from(
-          key: const Key("Primary Navigation Medium"),
+          key: navigatorKey,
           inAnimation: inAnimation,
           builder: builder,
         ),
         Breakpoints.large: SlotLayout.from(
-          key: const Key("Primary Navigation Large"),
+          key: navigatorKey,
           inAnimation: inAnimation,
           builder: builder,
         ),
@@ -86,18 +98,24 @@ class _ScreenScaffoldState extends State<ScreenScaffold> {
   }
 
   SlotLayout generateBottomNavSlot(
-    List<NavigationDestination> destinations,
+    List<BottomNavigationBarItem> destinations,
+    void Function(int) onDestinationSelected,
+    Key navigatorKey,
   ) {
     return SlotLayout(
       config: {
         Breakpoints.small: SlotLayout.from(
-          key: const Key("Bottom Navigation Small"),
-          builder: (_) => AdaptiveScaffold.standardBottomNavigationBar(
-            destinations: destinations,
+          key: navigatorKey,
+          builder: (_) => BottomNavigationBar(
+            useLegacyColorScheme: false,
+            type: BottomNavigationBarType.fixed,
+            mouseCursor: SystemMouseCursors.none,
+            items: destinations,
             currentIndex: _selectedNavIndex,
-            onDestinationSelected: (newIndex) {
+            onTap: (newIndex) {
               setState(() {
                 _selectedNavIndex = newIndex;
+                onDestinationSelected(newIndex);
               });
             },
           ),
