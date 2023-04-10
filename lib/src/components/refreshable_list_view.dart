@@ -15,6 +15,7 @@ class RefreshableListView extends StatelessWidget {
     return Scrollbar(
       child: onRefresh == null || onRefresh == () async {}
           ? ListView(
+              shrinkWrap: true,
               padding: const EdgeInsets.all(0),
               children: children,
             )
@@ -24,6 +25,7 @@ class RefreshableListView extends StatelessWidget {
               color: Theme.of(context).colorScheme.onSurfaceVariant,
               backgroundColor: Colors.transparent,
               child: ListView(
+                shrinkWrap: true,
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.all(0),
                 children: children,
