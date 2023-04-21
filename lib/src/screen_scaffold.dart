@@ -1,14 +1,15 @@
 part of udy_flutter_layout;
 
 class ScreenScaffold extends StatefulWidget {
-  final Widget body, navRailLeading;
+  final List<Widget> bodyStackChildren;
+  final Widget navRailLeading;
   final List<NavWidgetDestination> destinations;
   final Key navigatorKey;
-  final void Function(int newIndex)? onDestinationSelected;
+  final void Function(int currentIndex, int newIndex)? onDestinationSelected;
 
   const ScreenScaffold({
     Key? key,
-    required this.body,
+    required this.bodyStackChildren,
     required this.destinations,
     this.navRailLeading = const Icon(Icons.menu),
     this.navigatorKey = const Key("Navigator"),
@@ -26,17 +27,28 @@ class _ScreenScaffoldState extends State<ScreenScaffold> {
   Widget build(BuildContext context) {
     return AdaptiveLayout(
       internalAnimations: false,
-      body: generateBodySlot(widget.body),
+      body: generateBodySlot(
+        IndexedStack(
+          index: _selectedNavIndex,
+          children: widget.bodyStackChildren,
+        ),
+      ),
       primaryNavigation: generatePrimaryNavSlot(
         widget.destinations
             .map((e) => e.toNavigationRailDestination())
             .toList(),
-        widget.onDestinationSelected ?? (_) {},
+        widget.onDestinationSelected != null
+            ? (newIndex) =>
+                widget.onDestinationSelected!(_selectedNavIndex, newIndex)
+            : (_) {},
         widget.navigatorKey,
       ),
       bottomNavigation: generateBottomNavSlot(
         widget.destinations.map((e) => e.toBottomNavigationBarItem()).toList(),
-        widget.onDestinationSelected ?? (_) {},
+        widget.onDestinationSelected != null
+            ? (newIndex) =>
+                widget.onDestinationSelected!(_selectedNavIndex, newIndex)
+            : (_) {},
         widget.navigatorKey,
       ),
     );
